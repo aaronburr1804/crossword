@@ -49,7 +49,8 @@ $ cargo run --release -- --help
 # Example usage starting search from the crossword on January 1, 2016 onward
 # Subsequent program runs will use existing file as a cache 
 $ cargo run --release -- -t <your NYT token> -s 2016-01-01 data.csv
-
+$ cargo run --release -- -t 0^CB4SNgitmunMBhCwnOnMBhoSMS3nPcEZ2WrarfQgmG4e0WSjIJLIvUEqAgACOPvC7vcFQgUIlOODChpAjRIdoP2UnjTeHXC0O7TpPUHZyhkEU53t6DPEf9VxKBjjAL_cPqIwFB1TjE5Ubjh7v-jpGcykXPT8VFL7dwj1BQ -s 2024-03-31 data.csv
+0^CB4SNgitmunMBhCwnOnMBhoSMS3nPcEZ2WrarfQgmG4e0WSjIJLIvUEqAgACOPvC7vcFQgUIlOODChpAjRIdoP2UnjTeHXC0O7TpPUHZyhkEU53t6DPEf9VxKBjjAL_cPqIwFB1TjE5Ubjh7v-jpGcykXPT8VFL7dwj1BQ==
 # Example usage with increased quota to set rate-limit to 10 requests/second
 $ cargo run --release -- -t <your NYT token> -s 2016-01-01 -q 10 -o data.csv
 ```
@@ -82,7 +83,9 @@ browsers' developer tools.
    `stats-and-streaks.json`.
 1. In the headers pane, find the list of cookies, and fine `NYT-S` in that string. That is your
    token. If you can't find the `NYT-S` cookie in the request, try a different json file.
-
+```
+ NYT-S=0^CB4SNgitmunMBhCwnOnMBhoSMS3nPcEZ2WrarfQgmG4e0WSjIJLIvUEqAgACOPvC7vcFQgUIlOODChpAjRIdoP2UnjTeHXC0O7TpPUHZyhkEU53t6DPEf9VxKBjjAL_cPqIwFB1TjE5Ubjh7v-jpGcykXPT8VFL7dwj1BQ==; GCLB="7c7de8da51ffac41"
+ ```
 ### Under the hood
 
 The script scrapes data using some undocumented but public REST APIs used by the official NYT
@@ -93,12 +96,12 @@ HTTP traffic while browsing the crossword webpage.
 Some details if you want to bypass the script and replicate the functionality yourself:
 
 1. Each puzzle is assigned a numerical id. Before we can fetch the stats for a given puzzle, we need
-   to know that id. To find it, send a GET request as below, specifying `{start_date}` and `{end_date}`
+   to know that id. To find it, send a GET request as below, specifying `{start date}` and `{end_date}`
    in YYYY-MM-DD format ([ISO 8601](https://xkcd.com/1179)). The server response is limited to 100
    puzzles and can be limited further by adding a `limit` parameter.
 
    ```sh
-   curl 'https://www.nytimes.com/svc/crosswords/v3/36569100/puzzles.json?publish_type=daily&date_start={start_date}&date_end={end_date}' -H 'accept: application/json'
+   curl 'https://www.nytimes.com/svc/crosswords/v3/36569100/puzzles.json?publish_type=daily&date_start={2024-03-31}&date_end={2026-02-21}' -H 'accept: application/json'
    ```
 
 1. To fetch solve stats for a given puzzle, send a GET request as below, replacing `{id}` with the
