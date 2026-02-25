@@ -15,6 +15,8 @@
 # limitations under the License.
 import argparse
 import datetime
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -22,7 +24,7 @@ import pandas as pd
 import seaborn as sns
 
 # Rolling average filter interval for plot
-FILTER_INTERVAL_WEEKS = 26
+FILTER_INTERVAL_WEEKS = 12
 DEFAULT_PLOT_STYLE = "ggplot"
 
 # Mapping of days as outputted in Rust crate to how each day should be formatted in the plot legend
@@ -161,3 +163,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
